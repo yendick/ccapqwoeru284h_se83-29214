@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=0.75" />
+    <title>Coachinig Creacional</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous" />
+    <link rel="stylesheet" href="./css/site.css?v=0qw98rhqspodifjhpqwo8eruypiowe" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css" />
+</head>
+<body>
+    <header>
+        
+<nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="/">
+            <img src="./images/logo.png" alt="Logo" width="64" class="d-inline-block align-text-middle">
+        </a>
+        <button class="navbar-toggler d-print-none" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between d-print-none">
+            <ul class="navbar-nav flex-grow-1 d-print-none">
+                <li><a class="nav-link text-dark" onclick="$('#bdoLoadingModal').show();" href="/Planning">Planning</a></li>
+                <li><a class="nav-link text-dark" onclick="$('#bdoLoadingModal').show();" href="/Horas">Horas</a></li>
+                <li><a class="nav-link text-dark" onclick="$('#bdoLoadingModal').show();" href="/Gastos">Gastos</a></li>
+
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarScrollingDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Mantenimientos
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarScrollingDropdown">
+                            <li><a class="nav-link text-dark" onclick="$('#bdoLoadingModal').show();" href="/Tareas">Tareas</a></li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li><a class="nav-link text-dark" onclick="$('#bdoLoadingModal').show();" href="/Caracteristicas">Caracteristicas</a></li>
+                                <li><a class="nav-link text-dark" onclick="$('#bdoLoadingModal').show();" href="/EmpleadosCaracteristicas">Caracteristicas&nbsp;por&nbsp;Empleado</a></li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li><a class="nav-link text-dark" onclick="$('#bdoLoadingModal').show();" href="/CategoriasPesos">Pesos&nbsp;categor&iacute;as</a></li>
+                                <li><a class="nav-link text-dark" onclick="$('#bdoLoadingModal').show();" href="/CategoriasEquivalencias">Equivalencias&nbsp;categor&iacute;as</a></li>
+                                <li><a class="nav-link text-dark" onclick="$('#bdoLoadingModal').show();" href="/TiposTarea">Tipos&nbsp;de&nbsp;Tarea</a></li>
+                        </ul>
+                    </li>
+            </ul>
+            <ul class="navbar-nav text-end d-print-none">
+                    <li class="nav-item m-auto d-print-none">
+                            <select id="queryUserSelect" class="form-select form-select-sm" onchange="cambiarUsuarioImpersonado(this)">
+                                        <option value="sebastian.espartero@bdo.es">sebastian.espartero@bdo.es</option>
+                                        <option value="borja.urrutia@bdo.es">borja.urrutia@bdo.es</option>
+                                        <option value="diego.garcia@bdo.es">diego.garcia@bdo.es</option>
+                                        <option value="gema.rodriguez@bdo.es">gema.rodriguez@bdo.es</option>
+                                        <option value="graciela.aller@bdo.es">graciela.aller@bdo.es</option>
+                                        <option value="javier.torres@bdo.es">javier.torres@bdo.es</option>
+                                        <option value="javier.varela@bdo.es">javier.varela@bdo.es</option>
+                                        <option value="jordi.garcia@bdo.es">jordi.garcia@bdo.es</option>
+                                        <option value="laura.diaz@bdo.es" selected>laura.diaz@bdo.es</option>
+                                        <option value="ramon.roger@bdo.es">ramon.roger@bdo.es</option>
+                            </select>
+                    </li>
+                    <li class="nav-item m-auto d-print-none">
+                        <a class="nav-link text-dark text-nowrap" href="/MicrosoftIdentity/Account/SignOut"><i class="bi bi-box-arrow-right" style="font-size: 1.5rem;"></i></a>
+                    </li>
+            </ul>
+        </div>
+            <div class="d-none d-print-block">
+                <span>Sebasti&#xE1;n Espartero</span>
+            </div>
+    </div>
+</nav>
+
+<script>
+    function cambiarUsuarioImpersonado(cmb) {
+
+        var user = $("#" + cmb.id + " option:selected").val();
+        var link = '/Home/ChangeImpersonatedUser';
+
+        $.ajax({
+            type: 'POST',
+            url: link,
+            data: { user: user }
+        }).done(function (response) {
+            if (response) {
+                if (response == "OK") {
+                    var link = '/';
+                    document.location = link;
+                } else {
+                    $("#modalDialog .modal-content").html(response);
+                }
+            }
+            else {
+                showErrorModal("Respuesta no válida.");
+            }
+        }).fail(function (jqXHR, textStatus, errorThrown) {
+            treatAjaxResponseError(jqXHR, textStatus, errorThrown);
+        });
+    }
+</script>
+    </header>
+    <div b-6lt80yiiio class="modal" style="background: none !important;" id="bdoLoadingModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1">
+        <div b-6lt80yiiio class="modal-dialog modal-dialog-centered" style="background: none !important;">
+            <div b-6lt80yiiio class="modal-content" style="background: none !important; border: none;">
+                <div b-6lt80yiiio class="modal-body" style="background: none !important; text-align: center;">
+                    <div b-6lt80yiiio class="spinner-border text-primary" role="status">
+                        <span b-6lt80yiiio class="visually-hidden">Cargando...</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div b-6lt80yiiio class="container-fluid">
+        <main b-6lt80yiiio role="main" class="pb-3">
+            
+<div class="text-center pt-5 pb-5">
+    <h1 class="display-4 mb-5   ">Gestión de Proyectos</h1>
+        <h5>Bienvenida</h5>
+        <h4>Laura Diaz las Heras</h4>
+        <h6>[Otra]</h6>
+</div>
+
+<br /><br />
+
+
+        </main>
+    </div>
+
+    <footer b-6lt80yiiio class="border-top footer text-muted">
+        <div b-6lt80yiiio class="container">
+            <!-- &copy; 2023 - BDO.GestionProyectos.Web -->
+            Copyright &copy; 2023 - Gestion de Proyectos para <a b-6lt80yiiio href="https://www.bdo.es/">BDO</a>
+            <!--
+            <br />
+            BDO Auditores, S.L.P., sociedad limitada española independiente. Miembro de la organización internacional de BDO, constituida por empresas independientes asociadas de todo el mundo, y creada por BDO International Limited, una compañía limitada por garantía del Reino Unido.
+            -->
+        </div>
+    </footer>
+
+    <div b-6lt80yiiio id="modalDialog" class="modal fade" role="dialog">
+
+        <div b-6lt80yiiio class="modal-dialog modal-lg modal-fullscreen-md-down">
+            <!-- modal-fullscreen -->
+
+            <div b-6lt80yiiio class="modal-content">
+            </div>
+
+        </div>
+
+    </div>
+
+    <div b-6lt80yiiio id="modalDialog2" class="modal" role="dialog">
+
+        <div b-6lt80yiiio class="modal-dialog modal-lg modal-fullscreen-md-down">
+
+            <div b-6lt80yiiio class="modal-content shadow-lg">
+            </div>
+
+        </div>
+
+    </div>
+
+    <div b-6lt80yiiio id="modalShowMessageDialogLayout" class="modal" role="dialog">
+
+        <div b-6lt80yiiio class="modal-dialog modal-dialog-centered">
+
+            <div b-6lt80yiiio class="modal-content rounded shadow" id="modalShowMessageDialogLayout_content" style="background-color: #E8E8E8; border-width: 4px;">
+
+                <div b-6lt80yiiio class="modal-header rounded-0" style="padding: 0px;" id="modalShowMessageDialogLayout_header">
+                    <h5 b-6lt80yiiio class="" id="modalShowMessageDialogLayout_title" style="padding-left: 20px; padding-right: 20px; padding-top: 6px;"></h5>
+                </div>
+
+                <div b-6lt80yiiio class="modal-body" id="modalShowMessageDialogLayout_body">
+                    <div b-6lt80yiiio class="row">
+                        <div b-6lt80yiiio class="col-12">
+                            <h6 b-6lt80yiiio id="modalShowMessageDialogLayout_subtitle"></h6>
+                        </div>
+                    </div>
+                    <div b-6lt80yiiio class="row">
+                        <div b-6lt80yiiio class="col-12" id="modalShowMessageDialogLayout_message" style="font-size: 0.9em;"></div>
+                    </div>
+                    <div b-6lt80yiiio class="row mt-3" id="modalShowMessageDialogLayout_more">
+                        <div b-6lt80yiiio class="col-12" style="font-size: 1em;">
+                            <p b-6lt80yiiio class="text-end">
+                            </p>
+                            <div b-6lt80yiiio class="collapse" id="modalShowMessageDialogLayout_more_expanded">
+                                <div b-6lt80yiiio class="card card-body">
+                                    <textarea b-6lt80yiiio id="modalShowMessageDialogLayout_textarea" rows="12" style="width: 100%; font-size: 0.9em;"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div b-6lt80yiiio class="modal-footer">
+                    <div b-6lt80yiiio class="row" style="width: 100%">
+                        <div b-6lt80yiiio class="col-6 text-start">
+                            <button b-6lt80yiiio class="btn btn-secondary text-start" type="button" id="modalShowMessageDialogLayout_expandbutton" onclick="$('#modalShowMessageDialogLayout_more_expanded').collapse('toggle');">
+                                <i b-6lt80yiiio class="bi bi-chevron-double-down" style="font-size: 0.75em"></i> Más información
+                            </button>
+                        </div>
+                        <div b-6lt80yiiio class="col-6 text-end">
+                            <button b-6lt80yiiio type="button" class="btn btn-danger" data-bs-dismiss="modal"><i b-6lt80yiiio class="bi bi-x-square pe-1" style="font-size: 1rem;"></i>Cerrar</button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <script src="./lib/jquery/dist/jquery.min.js"></script>
+    <script src="./lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="./js/site.js?v=pw9ru19jfaskdfghq809wrjqsfpiwore"></script>
+    
+
+    <script>
+        window.onload = function () {
+
+            //try
+            //{
+            //    // Enable popovers
+            //    var popoverTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="popover"]'))
+            //    var popoverList = popoverTriggerList.map(function (popoverTriggerEl) {
+            //        return new bootstrap.Popover(popoverTriggerEl)
+            //    })
+            //}
+            //catch(e) { }
+
+        }
+    </script>
+
+</html>
